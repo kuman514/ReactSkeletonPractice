@@ -6,6 +6,6 @@ export interface Person {
   email: string;
 }
 
-export interface ApiGetPersonResponse {
-  data: Person;
+export interface ApiGetPeopleResponse {
+  data: Person[];
 }

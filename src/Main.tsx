@@ -2,20 +2,20 @@ import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import axios, { isAxiosError } from 'axios';
 
-import { ApiGetPersonResponse, Person } from '^/types';
+import { ApiGetPeopleResponse, Person } from '^/types';
 import NameTag from '^/components/atoms/NameTag';
 
 const Root = styled.div``;
 
 function Main() {
   const [isLoading, setIsLoading] = useState<boolean>(true);
-  const [contents, setContents] = useState<Person | undefined>();
+  const [contents, setContents] = useState<Person[] | undefined>();
 
   useEffect(() => {
     (async () => {
       try {
-        const response = await axios.get<ApiGetPersonResponse>(
-          'https://reqres.in/api/users/2'
+        const response = await axios.get<ApiGetPeopleResponse>(
+          'https://reqres.in/api/users?page=2'
         );
         setContents(response.data.data);
       } catch (error) {
@@ -28,7 +28,17 @@ function Main() {
     })();
   }, []);
 
-  const renderContent = isLoading ? <NameTag /> : <NameTag person={contents} />;
+  const renderContent = isLoading ? (
+    <>
+      <NameTag />
+      <NameTag />
+      <NameTag />
+    </>
+  ) : (
+    contents?.map((content) => (
+      <NameTag key={`person-${content.id}`} person={content} />
+    ))
+  );
 
   return <Root>{renderContent}</Root>;
 }
