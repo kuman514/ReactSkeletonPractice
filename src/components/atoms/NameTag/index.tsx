@@ -24,20 +24,17 @@ const ProfileImg = styled.img`
 const NameAndEmailContainer = styled.div`
   display: flex;
   flex-direction: column;
+  row-gap: 0.2rem;
 `;
 
 const Name = styled.span`
   width: 15rem;
-  height: 1.5rem;
-
   font-size: 1rem;
   font-weight: 700;
 `;
 
 const Email = styled.span`
   width: 15rem;
-  height: 1.5rem;
-
   font-size: 0.9rem;
   font-weight: 300;
 `;
