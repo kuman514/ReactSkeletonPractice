@@ -1,4 +1,4 @@
-import React, { ReactNode } from 'react';
+import React from 'react';
 import styled, { CSSObject } from 'styled-components';
 
 interface RootProps {
@@ -37,16 +37,15 @@ const Root = styled.div<RootProps>`
   background: #e2e2e2;
 `;
 
-interface Props extends RootProps {
-  children?: ReactNode;
-}
+/**
+ * I think we can just use Skeletons to shape the contents.
+ * So, we don't need children in Skeletons.
+ * (Temporarily changed interface Props to type Props, to handle ESLint errors.)
+ */
+type Props = RootProps;
 
-function Skeleton({ width, height, borderRadius, children }: Props) {
-  return (
-    <Root width={width} height={height} borderRadius={borderRadius}>
-      {children}
-    </Root>
-  );
+function Skeleton({ width, height, borderRadius }: Props) {
+  return <Root width={width} height={height} borderRadius={borderRadius} />;
 }
 
 export default Skeleton;
