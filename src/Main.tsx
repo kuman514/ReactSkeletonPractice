@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
+import axios, { isAxiosError } from 'axios';
 
 import { ApiGetPersonResponse, Person } from '^/types';
 import NameTag from '^/components/atoms/NameTag';
@@ -11,20 +12,20 @@ function Main() {
   const [contents, setContents] = useState<Person | undefined>();
 
   useEffect(() => {
-    fetch('https://reqres.in/api/users/2')
-      .then((response) => {
-        if (!response.ok) {
-          setIsLoading(false);
-          setContents(undefined);
-          throw new Error(`Response error: ${response.status}`);
+    (async () => {
+      try {
+        const response = await axios.get<ApiGetPersonResponse>(
+          'https://reqres.in/api/users/2'
+        );
+        setContents(response.data.data);
+      } catch (error) {
+        if (isAxiosError(error)) {
+          // eslint-disable-next-line no-console
+          console.error(error);
         }
-
-        return response.json();
-      })
-      .then((responseJson: ApiGetPersonResponse) => {
-        setIsLoading(false);
-        setContents(responseJson.data);
-      });
+      }
+      setIsLoading(false);
+    })();
   }, []);
 
   const renderContent = isLoading ? <NameTag /> : <NameTag person={contents} />;
